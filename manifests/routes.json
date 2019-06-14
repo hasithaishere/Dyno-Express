@@ -1,0 +1,20 @@
+[{
+    "method": "POST",
+    "path": "/authenticate",
+    "handlers": [
+        {
+            "type": "MIDDLEWARE",
+            "controller": {
+                "module": "express-joi-validator",
+                "parameters": [{ "path": "schemas.userSchema.authSchema" }]
+            }
+        },
+        {
+            "type": "CONTROLLER",
+            "controller": {
+                "path": "controllers.authenticateController.authenticate",
+                "parameters": []
+            }
+        }
+    ]
+}]
