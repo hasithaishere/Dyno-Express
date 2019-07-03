@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+const { User } = require('../models')
 
 module.exports = {
     authenticate: (req, res, next) => {
@@ -11,10 +10,8 @@ module.exports = {
         user.setPassword(req.body.password);
 
         user.save().then(function(){
-            return res.json({user: user.toAuthJSON()});
+            res.json({user: user.toAuthJSON()});
         }).catch(next);
-
-
 
         //res.send('respond with a resource');
     }

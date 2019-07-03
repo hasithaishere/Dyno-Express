@@ -4,15 +4,18 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const BodyParser = require('body-parser');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 
+const mongoDBProxy = require('./proxy/mongoDBProxy');
+// connect to mongodb
+mongoDBProxy.init();
 
 
 var app = express();
-mongoose.connect('mongodb://localhost/base-project');
-mongoose.set('debug', true);
+//mongoose.connect('mongodb://localhost/base-project');
+//mongoose.set('debug', true);
 
-require('./models/User');
+//require('./models/User');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

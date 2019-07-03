@@ -11,7 +11,7 @@ var UserSchema = new mongoose.Schema({
   image: String,
   hash: String,
   salt: String
-}, {timestamps: true});
+}, { collection: 'User', timestamps: true});
 
 UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
 
@@ -55,4 +55,4 @@ UserSchema.methods.toProfileJSONFor = function(user){
   };
 };
 
-mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
