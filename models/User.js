@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
+var { model, Schema } = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var crypto = require('crypto');
 var jwt = require('jsonwebtoken');
 var secret = 'wsdfghjrtyuFCV5ybh6FDh';
 
-var UserSchema = new mongoose.Schema({
+var UserSchema = new Schema({
   username: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true },
   email: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true },
   bio: { type: String },
@@ -58,4 +58,4 @@ class UserClass {
 }
 
 UserSchema.loadClass(UserClass);
-module.exports = mongoose.model('User', UserSchema);
+module.exports = model('User', UserSchema);

@@ -6,16 +6,15 @@
 
 // Require all model classes in model folder
 const models = require('require-all')({
-    dirname     :  __dirname,
-    filter : function (fileName) {
-        console.log(fileName)
+    dirname:  __dirname,
+    filter: (fileName) => {
         if (fileName === 'index.js') return;
         else {
             return fileName.split('.')[0];
         }
-    },    
-    excludeDirs :  /^\.(git|svn)$/,
-    recursive   : false
+    },
+    excludeDirs:  /^\.(git|svn)$/,
+    recursive: false
 });
 
 module.exports = models;

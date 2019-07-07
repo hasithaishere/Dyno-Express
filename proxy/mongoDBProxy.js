@@ -10,7 +10,8 @@ const logo = require('asciiart-logo');
 const chalkAnimation = require('chalk-animation');
 const { version } = require('../package.json');
 
-/* class mongoDB {
+/* 
+class mongoDB {
     // Constructor of mongoDB Proxy class for instantiate all prerequisite lib. instances
     constructor () {
         const  { host, port, name: dbName } = config.database.mongodb;
@@ -30,7 +31,8 @@ const { version } = require('../package.json');
     }
 }
 
-module.exports = mongoDB; */
+module.exports = mongoDB; 
+*/
 
 
 module.exports = {
@@ -52,24 +54,22 @@ module.exports = {
             .render()
         );
 
-        mongoose.connect(
-            `mongodb://${config.database.mongodb.host}:${config.database.mongodb.port}/${config.database.mongodb.name}`,
-            { useNewUrlParser: true, useCreateIndex: true },
-            (error) => {
-                if (error) {
-                    console.log('Error on connecting to MongoDB');
-                } else {
-                    const radar = chalkAnimation.radar('Lorem ipsum dolor sit amet', 0.5);
-                    console.log('**** Connected to MongoDB ****');
-                    setTimeout(() => {
-                        radar.stop(); // Animation stops
-                    }, 10000);
-                     
-                    setTimeout(() => {
-                        radar.start(); // Animation resumes
-                    }, 2000);
-                }
-            },
-        );
+        const mongoDBUrl = `mongodb://${config.database.mongodb.host}:${config.database.mongodb.port}/${config.database.mongodb.name}`;
+
+        mongoose.connect(mongoDBUrl, { useNewUrlParser: true, useCreateIndex: true }, (error) => {
+            if (error) {
+                console.log('Error on connecting to MongoDB');
+            } else {
+                const radar = chalkAnimation.radar('Lorem ipsum dolor sit amet', 0.5);
+                console.log('**** Connected to MongoDB ****');
+                setTimeout(() => {
+                    radar.stop(); // Animation stops
+                }, 10000);
+                    
+                setTimeout(() => {
+                    radar.start(); // Animation resumes
+                }, 2000);
+            }
+        });
     },
 };
