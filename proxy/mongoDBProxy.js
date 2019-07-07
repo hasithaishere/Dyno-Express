@@ -6,6 +6,9 @@
 
 const mongoose = require('mongoose');
 const config = require('config');
+const logo = require('asciiart-logo');
+const chalkAnimation = require('chalk-animation');
+const { version } = require('../package.json');
 
 /* class mongoDB {
     // Constructor of mongoDB Proxy class for instantiate all prerequisite lib. instances
@@ -32,7 +35,23 @@ module.exports = mongoDB; */
 
 module.exports = {
     init() {
-        console.log('>>>>>>>>>>>>>>>', config.database.mongodb )
+        const { appName } = config;
+        console.log(
+            logo({
+                name: appName,
+                font: '3D-ASCII',
+                lineChars: 20,
+                padding: 2,
+                margin: 3,
+                borderColor: 'grey',
+                logoColor: 'bold-green',
+                textColor: 'green',
+            })
+            .right(`ver. ${version}`)
+            .emptyLine()
+            .render()
+        );
+
         mongoose.connect(
             `mongodb://${config.database.mongodb.host}:${config.database.mongodb.port}/${config.database.mongodb.name}`,
             { useNewUrlParser: true, useCreateIndex: true },
@@ -40,7 +59,15 @@ module.exports = {
                 if (error) {
                     console.log('Error on connecting to MongoDB');
                 } else {
+                    const radar = chalkAnimation.radar('Lorem ipsum dolor sit amet', 0.5);
                     console.log('**** Connected to MongoDB ****');
+                    setTimeout(() => {
+                        radar.stop(); // Animation stops
+                    }, 10000);
+                     
+                    setTimeout(() => {
+                        radar.start(); // Animation resumes
+                    }, 2000);
                 }
             },
         );

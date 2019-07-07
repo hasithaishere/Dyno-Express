@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "appName": "E25 API Core",
     "database": {
         "mongodb": {
             "host": "localhost",
