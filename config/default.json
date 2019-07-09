@@ -1,5 +1,5 @@
 {
-    "appName": "E25 API Core",
+    "appName": "Dyno Express",
     "database": {
         "mongodb": {
             "host": "localhost",
