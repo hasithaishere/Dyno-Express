@@ -1,10 +1,13 @@
+const BaseModel = require('./BaseModel');
+
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const secret = 'wsdfghjrtyuFCV5ybh6FDh';
 
-class User {
+class User extends BaseModel {
     constructor (options) {
-        this.options = options;
+      super();
+      this.options = options;
     }
 
     getMetaData() {
