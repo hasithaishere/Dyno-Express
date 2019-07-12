@@ -12,11 +12,11 @@ class BaseModel {
     }
 
     getPlugins() {
-      throw new Error("Method 'getPlugins()' must be implemented.");
+      return [];
     }
 
     getActionClass () {
-      throw new Error("Method 'getActionClass()' must be implemented.");
+      return null;
     }
 };
 
