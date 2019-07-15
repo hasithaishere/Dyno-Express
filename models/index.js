@@ -6,53 +6,94 @@
 
 const { model, Schema } = require('mongoose');
 const _ = require('lodash');
+const crypto = require('crypto');
+
+const MultipleInheritance = require('../helpers/multipleInheritance');
 
 // Require all model classes in model folder
 const models = require('require-all')({
-    dirname:  __dirname,
+    dirname: __dirname,
     filter: (fileName) => {
-        if (fileName === 'index.js' || fileName === 'BaseModel.js') return;
+        if (fileName === 'index.js') return;
         else {
             return fileName.split('.')[0];
         }
     },
-    excludeDirs:  /^\.(git|svn)$/,
+    excludeDirs: /^\.(git|svn)$/,
     recursive: false
 });
 
 // Available plugins
-const plugins = {
-  uniqueValidator: require('mongoose-unique-validator')
+const availablePlugins = {
+    uniqueValidator: require('mongoose-unique-validator')
 };
+
+// DUMMY - START
+
+const decorators = {
+    models: {
+        User: {
+            actionClass: class {
+                setPassword(password) {
+                    this.salt = crypto.randomBytes(16).toString('hex');
+                    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+                }
+            }
+        }
+    }
+}
+
+// DUMMY - END
 
 const modelList = {};
 
 for (const key in models) {
-    const Model = new models[key]();
+    let { metaData, schemaOptions, schemas, plugins, actionClass } = models[key];
+
+    if (!_.isUndefined(decorators.models[key])) {
+        const decorator = decorators.models[key];
+
+        if (!_.isUndefined(decorator.metaData)) {
+            _.extend(metaData, decorator.metaData)
+        }
+
+        if (!_.isUndefined(decorator.schemaOptions)) {
+            _.extend(schemaOptions, decorator.schemaOptions)
+        }
+
+        if (!_.isUndefined(decorator.schemas)) {
+            _.extend(schemas, decorator.schemas)
+        }
+
+        if (!_.isUndefined(decorator.plugins) && _.isArray(decorator.plugins)) {
+            plugins = plugins.concat(decorator.plugins);
+          }
+
+        if (!_.isUndefined(decorator.actionClass)) {
+            actionClass = class extends MultipleInheritance.inherit(actionClass, decorator.actionClass){}
+        }
+
+    }
 
     // Create model schema
-    const ModelSchema = new Schema(Model.getSchemas(), Model.getSchemaOptions());
-    // Get used plugin
-    const usedPlugins = Model.getPlugins();
+    const modelSchema = new Schema(schemas, schemaOptions);
 
     // Bind plugins to schema
-    usedPlugins.forEach((plugin) => {
-        switch(plugin.type) {
+    plugins.forEach((plugin) => {
+        switch (plugin.type) {
             case 'uniqueValidator':
-                ModelSchema.plugin(plugins[plugin.type], plugin.value);
-            break;
+                modelSchema.plugin(availablePlugins[plugin.type], plugin.value);
+                break;
         }
     });
 
-    const { modelName } = Model.getMetaData();
-
-    const actionClass = Model.getActionClass();
+    const { modelName } = metaData;
 
     if (!_.isNull(actionClass)) {
-        ModelSchema.loadClass(Model.getActionClass());
+        modelSchema.loadClass(actionClass);
     }
-    
-    modelList[modelName] = model(modelName, ModelSchema);
+
+    modelList[modelName] = model(modelName, modelSchema);
 };
 
 module.exports = modelList;
