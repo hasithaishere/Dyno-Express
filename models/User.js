@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const secret = 'wsdfghjrtyuFCV5ybh6FDh';
+const config = require('config');
+const { superSecret } = config.security;
 
 module.exports = {
   metaData: { modelName: 'User' },
@@ -37,7 +38,7 @@ module.exports = {
         id: this._id,
         username: this.username,
         exp: parseInt(exp.getTime() / 1000),
-      }, secret);
+      }, superSecret);
     }
 
     toAuthJSON() {

@@ -6,5 +6,8 @@
             "port": 27017,
             "name": "base-project"
         }
+    },
+    "security": {
+        "superSecret": "wsdfghjrtyuFCV5ybh6FDh"
     }
 }

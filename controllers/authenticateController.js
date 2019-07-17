@@ -12,7 +12,5 @@ module.exports = {
         user.save().then(function(){
             res.json({user: user.toAuthJSON()});
         }).catch(next);
-
-        //res.send('respond with a resource');
     }
 };
