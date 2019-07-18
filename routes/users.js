@@ -1,16 +1,3 @@
-/* const express = require('express');
-const router = express.Router();
-const validator = require('express-joi-validator');
-const joi = require('@hapi/joi');
-
-const { authenticate } = require('../controllers/authenticateController');
-const { authSchema } = require('../schemas/user');
-
-router.post('/authenticate', validator(authSchema), authenticate);
-
-module.exports = router; */
-
-
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');

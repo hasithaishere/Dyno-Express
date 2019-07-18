@@ -7,7 +7,7 @@ class MultipleInheritance {
             get base() { return _bases; }
 
             constructor(..._args) {
-                var index = 0;
+                let index = 0;
 
                 for (let b of this.base) {
                     let obj = new b(_args[index++]);

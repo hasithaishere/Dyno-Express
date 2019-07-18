@@ -6,7 +6,7 @@ module.exports = function validate(schema, options) {
   options = options || {};
 
   return function validateRequest(req, res, next) {
-    var toValidate = {};
+    const toValidate = {};
     /* istanbul ignore if */
     if (!schema) {
       return next();

@@ -20,7 +20,7 @@ module.exports = {
   }],
   actionClass: class {
     validPassword(password) {
-      var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+      const hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
       return this.hash === hash;
     }
 
@@ -30,8 +30,8 @@ module.exports = {
     } */
 
     generateJWT() {
-      var today = new Date();
-      var exp = new Date(today);
+      const today = new Date();
+      const exp = new Date(today);
       exp.setDate(today.getDate() + 60);
 
       return jwt.sign({
